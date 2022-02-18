@@ -18,12 +18,14 @@ Install the necessary dependencies to run the API.
 ### Database configuration file
 
 Create a file called `.env` in project directory and add this content:
-    PORT = 3000
-    DB_HOST = "localhost"
-    DB_USERNAME = ""
-    DB_PASSWORD = ""
-    DB_DATABASE = "ping_pong_game"
-    NODE_ENV = "development"
+```text
+PORT = 3000
+DB_HOST = "localhost"
+DB_USERNAME = ""
+DB_PASSWORD = ""
+DB_DATABASE = "ping_pong_game"
+NODE_ENV = "development"\
+```
 You have to replace the DB_USERNAME value with te database username that you have as well as DB_PASSWORD value.
 
 ## Available Scripts
