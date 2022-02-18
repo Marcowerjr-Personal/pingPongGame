@@ -1,0 +1,85 @@
+<% include('header') %>
+
+    <body>
+        <label>
+            <%= players.player1_name %>
+        </label>
+        <button onclick="addwin(1)">Add win</button>
+        <br>
+        <p>Wins: </p>
+        <p id="player1_wins">0</p>
+        <label>
+            <%= players.player2_name %>
+        </label>
+        <button onclick="addwin(2)">Add win</button>
+        <br>
+        <p>Wins: </p>
+        <p id="player2_wins">0</p>
+        <p id="winner">Current winner: It's a draw!</p>
+        <p id="win_difference">Win difference: 0</p>
+        <button onclick="save_game()">Save game</button>
+
+    </body>
+
+    <script>
+        var player1_wins = 0;
+        var player2_wins = 0;
+        var current_winner = 'Draw';
+        var win_difference = 0;
+        function addwin(player) {
+            if (player == 1) {
+                player1_wins++;
+                document.getElementById("player1_wins").innerHTML = player1_wins;
+            } else {
+                player2_wins++;
+                document.getElementById("player2_wins").innerHTML = player2_wins;
+            }
+
+            calculate_winner();
+        }
+
+        function calculate_winner() {
+            if (player1_wins > player2_wins) {
+                current_winner = `<%= players.player1_name %>`
+                win_difference = player1_wins - player2_wins
+                document.getElementById("winner").innerHTML = "Current winner: <%= players.player1_name %>";
+                document.getElementById("win_difference").innerHTML = "Win difference: " + win_difference;
+            } else if (player2_wins > player1_wins) {
+                current_winner = `<%= players.player2_name %>`
+                win_difference = player2_wins - player1_wins
+                document.getElementById("winner").innerHTML = "Current winner: <%= players.player2_name %>";
+                document.getElementById("win_difference").innerHTML = "Win difference: " + win_difference;
+            } else {
+                current_winner = 'Draw'
+                win_difference = 0;
+                document.getElementById("winner").innerHTML = "Current winner: It's a draw!";
+                document.getElementById("win_difference").innerHTML = "Win difference: 0";
+            }
+        }
+
+        async function save_game() {
+            let response = await fetch('/save_game', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    first_player_name: `<%= players.player1_name %>`,
+                    second_player_name: `<%= players.player2_name %>`,
+                    first_player_wins: player1_wins,
+                    second_player_wins: player2_wins,
+                    winner_player: current_winner,
+                    win_difference: win_difference
+                })
+            });
+            if (response.status == '200') {
+                alert('Game saved!');
+                window.location.href = '/';
+            } else {
+                alert('Something went wrong!');
+            }
+        }
+
+    </script>
+
+    </html>
