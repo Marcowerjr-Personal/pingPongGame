@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "run": "nodemon index.js"
+    "app": "nodemon index.js"
   },
   "author": "Marcos Caballero Fernández",
   "license": "ISC",
